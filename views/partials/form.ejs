@@ -1,0 +1,21 @@
+<link rel="stylesheet" type="text/css" href="/css/enter_dsr.css">
+ <form action="" method="post" id="paper">
+<br>
+ <h4><span class="label label-default"><label>Date: </label></span></h4><input type="text" id="datepicker" name="date">
+        <h4><span class="label label-default"><label>DSR: </label></span></h4>
+        <textarea placeholder="Enter text here...." id="text" name="dsr"  ></textarea>  
+	 <button  type="submit" class="btn btn-success" id="bttnsubmit"> Save Changes </button>
+    </form>
+
+
+     <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd",
+      maxDate: 0,
+      minDate: -7
+    });
+  } );
+	</script>

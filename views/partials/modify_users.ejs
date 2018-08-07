@@ -1,0 +1,125 @@
+<link rel="stylesheet" type="text/css" href="/css/generate_report.css">
+<div class="header">
+ 	<h4><span class="glyphicon glyphicon-tasks"></span>&nbsp;<strong>DASHBOARD > MANAGE USERS</strong></h4>
+ </div>
+<table class="table table-hover table-bordered" style="margin-top: 5%">
+  <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Access Type</th>
+        <th>Edit / Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    	<% for(var i = 0 ; i < data.length ; i++) { %>
+    		<tr class="<%= data[i].username %>">
+    			<td><strong><%= data[i].username %></strong></td>
+    			<td><%= data[i].email %></td>
+    			<% if (data[i].access_type=='A') { %>
+    				 <td><h4><span class="label label-info">Admin</span></h4></td>
+    			<% } else {%>
+    				<td><h4> <span class="label label-primary">General</span></h4></td>
+    			<% } %>
+    			<td><span class="btn-group "><button class="btn btn-warning " id="<%= i %>" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-edit" ></i></button>
+
+    			<button class="btn btn-danger" id="<%= data[i].username%>" ><i class="glyphicon glyphicon-remove" ></i></button>  
+             <% if(data[i].this_user) { %>
+              <script type="text/javascript">
+                var idd = <%- data[i].username %> ;
+                $(idd).attr("disabled","disabled");
+              </script>
+             <% } %>
+           </span></td>
+    		</tr>
+    		<% } %>
+    </tbody>
+</table>
+
+<!-- modal starts_______________________ -->
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header" >
+          <button type="button" class="close" data-dismiss="modal" >&times;</button>
+          <h4 class="modal-title">Edit User</h4>
+        </div>
+        <form action="/dashboard/modify_users" method="post" >
+        <div class="modal-body">
+        	
+  <div class="container">
+   
+    <label for="username"><b>Username :</b></label>
+    <input type="text" placeholder=" Username" name="username" required readonly>
+
+    <label for="psw"><b>Password :</b></label>
+    <input type="password" placeholder=" Password" name="password" >
+
+    <label for="Email"><b>Email :</b></label>
+    <input type="text" placeholder="Email" name="email" required>
+    
+    <label for="access_type"><b>Access Type :</b></label>
+	     <label>
+	    <input type="radio" class="option-input radio" name="access_type" value="A"  />
+	    	Admin
+	  </label>
+	  <label>
+	    <input type="radio" class="option-input radio" name="access_type" value="G" pull-right/>
+	    	General
+	  </label>
+    
+    </div>
+	</div>
+        <div class="modal-footer">
+
+    <div class="clearfix">
+      <button type="cancel" class="cancelbtn" data-dismiss="modal">Cancel</button>
+      <button type="submit" class="signupbtn" >Submit Changes</button>
+    </div>
+  </div>
+</form>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ends here ___________________________ -->
+<script type="text/javascript">
+	
+	$('.btn-danger').click(function() {
+		var username = $(this).attr('id'),
+			res =  confirm("Do you really want to delete the user ?");
+		if(res == true){
+		 $.post('/delete_user',{
+		 	username:username
+		 },function(data) {
+      alert(data.msg);
+      var cl = "."+username;
+      $(cl).hide();
+     });
+		}
+
+	});
+
+	$('.btn-warning').click(function() {
+
+		var id = $(this).attr('id'),
+			data = <%- JSON.stringify(data) %>;
+			$("input[name='username']").val(data[id].username);
+			$("input[name='password']").val("");
+			$("input[name='email']").val(data[id].email);
+
+			if(data[id].access_type == 'A'){
+				$("input[name='access_type'][value='A']").prop('checked',true);
+				
+			}else
+			{
+				$("input[name='access_type'][value='G']").prop('checked',true);
+			}
+			
+	});
+</script>

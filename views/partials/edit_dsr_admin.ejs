@@ -1,0 +1,104 @@
+<link rel="stylesheet" type="text/css" href="/css/enter_dsr.css">
+
+<%- include('error.ejs') %>
+
+ <div class="header">
+ 	<h4><span class="glyphicon glyphicon-tasks"></span>&nbsp;<strong>DASHBOARD > EDIT DSR</strong></h4> 
+ </div>
+ <form action="/dashboard/edit_dsr_admin" method="post" id="paper">
+<br>
+<div class="row">
+	<div class="col-sm-5">
+		 <h4><span class="label label-default"><label>Date: </label></span></h4>
+		 <input type="text" id="datepicker" name="date">
+	</div>
+	<div class="col-sm-5">
+		<h4><span class="label label-default"><label>User: </label></span></h4>
+		<select class="form-control" id="user" name="user">
+		<% for(var i=0;i<data.length;i++) {%>
+        <option><%= data[i] %></option>
+        <% } %>
+      </select>
+	</div>
+
+	<div class="col-sm-2">
+	<a class="view_but btn btn-info" id="view">View DSR <span class="glyphicon glyphicon-triangle-right"></span></a>
+	</div>
+</div>
+        <div >
+           <h4><span class="label label-default"><label for="info">DSR :</label>
+        </div></span></h4>
+        <textarea placeholder="Enter text here...." id="text" name="dsr"></textarea>  
+        <!-- <div class="btn-group"> -->
+	 <button  type="submit" class="btn btn-success" id="bttnsubmit"> Save Changes </button>
+	  <a href="#" class="btn btn-danger del" onclick="delete_confirmation()">Delete DSR ?</a>
+	<!-- </div> -->
+    </form>
+
+
+     <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd",
+      maxDate: 0
+    });
+  } );
+
+function delete_confirmation() {
+		var res = confirm("Do you really want to delete the DSR ?");
+		if(res == true){
+			var date = $("#datepicker").val();
+			user = $("#user option:selected").val();
+			$.ajax({
+				url:'/dashboard/view_dsr?date='+date+'&user='+user,
+				type: 'DELETE',
+				data: date,
+				success:function(data) {
+					console.log('Deleted dsr successfully!');
+					$("#text").val("No DSR for this date ");
+					alert(data.msg);
+
+				}
+			});
+		}
+		// body...
+	};
+
+
+$("#view").click(function() {
+	var date= $("#datepicker").val(),
+		user = $("#user option:selected").val();
+		console.log(user);
+	$.post('/get_data',{
+		date:date,
+		user:user
+	},function(data,status) {
+		// $(".btn-success").removeAttr("disabled");
+		if(data.data)
+		{		$("#text").val(data.data);
+		}else if(data.msg)
+		{
+			$("#text").val("");
+			alert(data.msg);
+
+		}
+		});
+});
+
+$(document).ready(function() {
+     $('#bttnsubmit').attr('disabled','disabled');
+     $('#text').keyup(function() {
+        if($(this).val().trim() != '') {
+           $('#bttnsubmit').removeAttr('disabled');
+           $('.del').removeAttr('disabled');
+        }
+        else {
+        $('#bttnsubmit').attr('disabled','disabled');
+        $('.del').attr('disabled','disabled');
+        }
+     });
+ });
+	</script>
+

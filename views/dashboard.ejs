@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <title>Dashboard</title>
+       <%- include('partials/header.ejs')%>
+        <link rel="stylesheet" type="text/css" href="/css/dashboard.css">
+    </head>
+    <body>
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/">BUILD TOOLS</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
+        <li><a href="/dashboard"><span class="glyphicon glyphicon-dashboard"></span> DASHBOARD</a></li>
+        <li><a href="#">CONTACT</a></li>
+            
+    </div>
+  </div>
+</nav>
+
+<!-- _________________________________ sidebar starts _______________________________________________ -->
+
+<div class="wrapper">
+
+        <nav id="sidebar">
+            <!-- Sidebar Header -->
+          <!--   <div class="sidebar-header">
+                <h3>Collapsible Sidebar</h3>
+                <strong>BS</strong>
+            </div> -->
+
+            <!-- Sidebar Links -->
+            <ul class="list-unstyled components">
+                <li class="active" id="enter_dsr">
+                    <a href="#">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                        ENTER DSR
+                    </a>
+                </li>
+                <li id="view_dsr">
+                    <a href="#">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                        VIEW / DELETE DSR
+                    </a>
+                </li>
+                <li id='edit_dsr'>
+                    <a href="#" >
+                        <i class="glyphicon glyphicon-erase"></i>
+                        EDIT DSR
+                    </a>
+                 </li>
+            </ul>
+            <ul class="list-unstyled components">
+                <li id="generate_report">
+                    <a href="#">
+                        <i class="glyphicon glyphicon-send"></i>
+                        GENERATE REPORT
+                    </a>
+                </li>
+            </ul>
+            <ul class="list-unstyled components">
+             <li id="modify_users">
+                    <a href="#">
+                        <i class="glyphicon glyphicon-user"></i>
+                        MODIFY USERS
+                    </a>
+                </li>
+              </ul>
+        </nav>
+
+        <div id="content">
+
+      <%- include('partials/alert.ejs') %>
+      <%- include('partials/error.ejs')%>
+      <div id="body_content"></div>
+
+</div>
+</div>
+<!-- _________________________________ sidebar ends__________________________________________________ -->
+
+        <script type="text/javascript">
+          $(window).on('load',function() {
+          $.get('/index',function (res) {
+            $('#body_content').html(res);
+            $("li").removeClass("active");
+
+          });
+        });
+
+        $('#enter_dsr,#view_dsr,#edit_dsr,#generate_report,#modify_users').click(function() {
+            var id = $(this).attr('id');
+            var url = '/dashboard/'+id;
+            $.get(url,function(res) {
+               $("li").removeClass("active");
+               console.log($(this).find('li').attr('id'));
+               $(this).addClass("active");
+               $('#body_content').html(res);
+
+            });
+          });
+
+        $(document).ready(function() {
+          setTimeout(function() {
+            $('.alert').hide("slow");
+          },2000);
+        })
+        </script>
+
+ 
+
+
+    </body>
+</html>

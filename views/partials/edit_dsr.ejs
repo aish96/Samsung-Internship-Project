@@ -1,0 +1,60 @@
+<link rel="stylesheet" type="text/css" href="/css/enter_dsr.css">
+
+<%- include('error.ejs') %>
+
+  <div class="header">
+ 	<h4><span class="glyphicon glyphicon-tasks"></span>&nbsp;<strong>DASHBOARD > EDIT DSR</strong></h4>
+ </div>
+<link rel="stylesheet" type="text/css" href="/css/enter_dsr.css">
+ <form action="" method="post" id="paper">
+<br>
+<h4><span class="label label-default"><label>Date: </label></span></h4>
+<input type="text" id="datepicker" name="date">
+<a class="btn btn-info" id="info">View DSR</a>
+        <div >
+         <h4><span class="label label-default"> <label >DSR :</label></span></h4>
+        </div>
+        <textarea placeholder="Enter text here...." id="text" name="dsr"  ></textarea>  
+	 <button  type="submit" class="btn btn-success" id="bttnsubmit"> Save Changes </button>
+    </form>
+
+
+     <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd",
+      maxDate: 0,
+      minDate: 0
+    });
+  } );
+	$('#info').click(function() {	
+		var date = $('#datepicker').val();
+
+		$.post('/get_data',{
+			date:date
+		},function(data,status) {
+      if(data.data){
+              $('#text').val(data.data);
+       }else if(data.msg)
+          {
+            alert(data.msg);
+          }
+		});
+	});
+   $('#paper').attr('method','post');
+    $('#paper').attr('action','/dashboard/edit_dsr');
+   
+$(document).ready(function() {
+     $('#bttnsubmit').attr('disabled','disabled');
+     $('#text').keyup(function() {
+        if($(this).val().trim() != '') {
+           $('#bttnsubmit').removeAttr('disabled');
+        }
+        else {
+        $('#bttnsubmit').attr('disabled','disabled');
+        }
+     });
+ });
+</script>

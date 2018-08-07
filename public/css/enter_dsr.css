@@ -1,0 +1,75 @@
+.header{
+	padding: 10px;
+	margin-top: 2%;
+	text-align: center;
+    color: #cecece;
+    background-color:white;
+    border-radius:8px;
+}
+#paper {
+	color:#FFF;
+	font-size:20px;
+}
+#text {
+	width:100%;
+	height: 60%;
+	background-color:#FFF;
+	color:#222;
+	font-family:Courier, monospace;
+	font-weight:normal;
+	font-size:24px;
+	resize:none;
+	line-height:40px;
+	padding-left:50px;
+	padding-right:50px;
+	padding-top:30px;
+	padding-bottom:34px;
+	border:1px solid #FFF;
+	border-radius:8px;
+/*	border-right: 10px solid #f4511e;
+*/}
+
+#datepicker {
+	width: 83%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: white;
+	color: black;
+	border-radius:8px;
+    
+}
+.view_but{
+	margin-top: 45px;
+    cursor: pointer;
+}
+.btn-success, .btn-danger{
+	width: 20%;
+	height: 10%;
+	padding:5px;
+	border-radius: 20px; 
+	margin-top: 3%;
+	margin-left: 40%;
+}
+/*.btn-danger{
+	border-radius: 20px; 
+}*/
+.btn-info{
+	height: 50px;
+	border-radius: 10px;
+	width: 150px;
+	padding-top:10px; 
+}
+.form-control
+{
+	width: 95%;
+	height: 57px;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    border-radius:8px;
+    background: white;
+	color: black;
+}

@@ -1,0 +1,112 @@
+<link rel="stylesheet" type="text/css" href="/css/generate_report.css">
+<div class="header">
+  <h4><span class="glyphicon glyphicon-tasks"></span>&nbsp;<strong>DASHBOARD > GENERATE REPORT</strong></h4> 
+ </div>
+<br>
+<div class="row">
+  <div class="col-sm-6">
+    <h4><span class="label label-default"><label for="from">From :</label></span></h4>
+
+    <input type="text" id="from" name="from">
+  </div>
+  <div class="col-sm-6">
+    <h4><span class="label label-default"><label for="to">To :</label>
+</span></h4>
+    <input type="text" id="to" name="to">
+  </div>  
+</div>
+ <div id='but_div'>
+     <button class="btn btn-success" id="find_dsr">Find DSRs </button>
+ </div>
+ <hr>
+<div >
+<h4><span class="label label-default"><label for="info">DSR :</label>
+</span></h4>
+
+</div>
+	
+<table class="table table-hover table-bordered">
+  <thead>
+      <tr>
+        <th>Submission Date</th>
+        <th>User</th>
+        <th>Dsr</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+    </tbody>
+</table>
+
+
+     <script>
+
+    $('#find_dsr').click(function() {
+              var fromdate = $('#from').val(),
+                  todate = $('#to').val();
+              $.post("/dashboard/generate_report",{
+                from: fromdate,
+                to: todate
+              },
+              function (data,status){
+
+                $('tbody').empty();
+                if(data.length < 0){ alert('No dsrs between this period !'); }
+                data.dsr.forEach(function(item){
+                  var content = '<tr class="roww"><td>'+item.submission_date+'</td><td><span class="label label-primary">'+item.user_id+'</span></td><td>'+item.dsr_note+'</td> ';
+                  $('tbody').append(content);
+                    });
+
+                var filename =data.file;
+                if($('#report').length<= 0){
+                $('#but_div').append('<button id="report" class="btn btn-danger" onclick="window.location=\'download/'+filename+'\'">download</button>');
+                }
+              });
+                
+
+
+              
+    });
+
+  $( function() {
+    var dateFormat = "mm/dd/yy",
+      from = $( "#from" )
+        .datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: 'yy-mm-dd'
+        })
+        .on( "change", function() {
+          to.datepicker( "option", "minDate", getDate( this ) );
+        }),
+      to = $( "#to" ).datepicker({
+        changeMonth: true,
+          changeYear: true,
+          dateFormat: 'yy-mm-dd'
+      })
+      .on( "change", function() {
+        from.datepicker( "option", "maxDate", getDate( this ) );
+      });
+ 
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element.value );
+      } catch( error ) {
+        date = null;
+      }
+ 
+      return date;
+    }
+  } );
+
+$('button#1').click(function()  {
+  alert('finally clicked');
+  console.log('dcscscsw');
+});
+
+
+	</script>
+
+
+ 

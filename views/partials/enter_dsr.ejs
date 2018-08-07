@@ -1,0 +1,21 @@
+ <link rel="stylesheet" type="text/css" href="/css/enter_dsr.css">
+ <div class="header">
+ 	<h4><span class="glyphicon glyphicon-tasks"></span>&nbsp;<strong>DASHBOARD > ENTER DSR</strong> </div>
+<%# include('error.ejs') %>
+<%- include('form.ejs') %>
+
+<script type="text/javascript">
+   $('#paper').attr('method','post');
+    $('#paper').attr('action','/dashboard/enter_dsr');
+   $(document).ready(function() {
+     $('#bttnsubmit').attr('disabled','disabled');
+     $('#text').keyup(function() {
+        if($(this).val().trim() != '') {
+           $('#bttnsubmit').removeAttr('disabled');
+        }
+        else {
+        $('#bttnsubmit').attr('disabled','disabled');
+        }
+     });
+ });
+</script>

@@ -1,0 +1,69 @@
+ <link rel="stylesheet" type="text/css" href="/css/enter_dsr.css">
+  <div class="header">
+ 	<h4><span class="glyphicon glyphicon-tasks"></span>&nbsp;<strong>DASHBOARD > VIEW DSR</strong></h4> 
+ </div>
+ <!-- <form action="" method="" id="paper"> -->
+<br>
+<h4><span class="label label-default"><label>Date: </label></span></h4>
+<input type="text" id="datepicker" name="date">
+<button id="click" class="btn btn-info">view dsr</button>
+        <h4><span class="label label-default"><label>DSR </label></span></h4>
+        <textarea placeholder="Enter text here...." id="text" name="dsr" readonly ></textarea>  
+	<!--  <button  type="submit" class="btn btn-success" onclick="window.location='/dashboard/edit_dsr'"> Want to edit ? </button> -->
+
+	 <div class="btn-group btn-group-justified">
+  <a href="#" class="btn btn-success" id="edit_dsr_btn">Want to edit ?</a>
+  <a href="#" class="btn btn-danger" onclick="delete_confirmation()">Delete DSR ?</a>
+	</div>
+    <!-- </form> -->
+
+
+     <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd"
+      //maxDate: 0
+    });
+  } );
+	
+	$('#click').click(function(){
+		var date = $("#datepicker").val();
+		
+		$.post("/dashboard/view_dsr",{
+			date:date
+		},
+		function(data,status){
+				$("#text").val(data.dsr_note);		
+
+		});
+	});
+
+	function delete_confirmation() {
+		var res = confirm("Do you really want to delete the DSR ?");
+		if(res == true){
+			var date = $("#datepicker").val();
+			$.ajax({
+				url:'/dashboard/view_dsr?date='+date,
+				type: 'DELETE',
+				data: date,
+				success:function(data) {
+					console.log('Deleted dsr successfully!');
+					$("#text").val("No DSR for this date ");
+					alert(data.msg);
+
+				}
+			});
+		}
+		// body...
+	};
+
+	$('#edit_dsr_btn').click(function() {
+            var id = $(this).attr('id');
+            var url = '/dashboard/edit_dsr';
+            $.get(url,function(res) {
+               $('#body_content').html(res);
+            });
+          });
+  </script>

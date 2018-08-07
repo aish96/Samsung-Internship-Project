@@ -1,0 +1,25 @@
+     <%- include('alert.ejs') %>
+      <%- include('error.ejs')%>
+      <div class="jumbotron">
+           <h2>Hi, Welcome to your Dashboard</h2>
+  <p>Enter, view and delete DSRs on daily basis for improving and monitoring the team's performance.</p>
+</div>
+         <div class="row">
+  <button class="button col-sm-4" id="enter_dsr_btn"><div class="gl"><span class="glyphicon  glyphicon-send"> </span></div><span class="button_text">ENTER DSR</span></button>
+
+ <button class="button col-sm-4" id="view_dsr_btn"><div class="gl"><span class="glyphicon  glyphicon-paste"> </span></div><span class="button_text">VIEW / DELETE DSR </span></button>
+ 
+ <button class="button col-sm-4" id="edit_dsr_btn"><div class="gl"><span class="glyphicon  glyphicon-erase"> </span></div><span class="button_text">EDIT DSR </span></button>
+
+  
+</div>
+   
+    <script type="text/javascript">
+    	$('#enter_dsr_btn,#view_dsr_btn,#edit_dsr_btn').click(function() {
+            var id = $(this).attr('id');
+            var url = '/dashboard/'+id.substr(0,id.length-4);
+            $.get(url,function(res) {
+               $('#body_content').html(res);
+            });
+          });
+    </script> 
